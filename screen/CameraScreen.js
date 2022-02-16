@@ -7,7 +7,7 @@ export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const cameraRef = useRef(null);
-  
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -21,10 +21,10 @@ export default function CameraScreen() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  
+
   return (
     <>
-      <Camera style={{ flex: 1 }} ref={cameraRef} type={type}/>
+      <Camera style={{ flex: 1 }} ref={cameraRef} type={type} />
       <Button
         title='Flip'
         onPress={() => {
@@ -35,17 +35,14 @@ export default function CameraScreen() {
           );
         }}>
       </Button>
-      <Button 
-        title='Take a picture' 
+      <Button
+        title='Take a picture'
         onPress={async () => {
           const pictureMetadata = await cameraRef.current.takePictureAsync();
-          console.log("pictureMetadata", pictureMetadata);
-          console.log(
-            await ImageManipulator.manipulateAsync(pictureMetadata.uri, [
-              { resize: { width: 800 } },
-            ])
-          );
-        }} 
+          await ImageManipulator.manipulateAsync(pictureMetadata.uri, [
+            { resize: { width: 800 } },
+          ])
+        }}
       />
     </>
   );
